@@ -246,18 +246,18 @@ To ensure a secure Health Booklet, user login profiles must be stored securely. 
 <div class="sect2">
 <h3 id="4-3-scheduling"><a class="link" href="#4-3-scheduling">4.3 Scheduling</a></h3>
 <div class="paragraph">
-<p>Scheduling allows appointment to be stored in Health Booklet.</p>
+<p>Scheduling allows appointment to be stored in Health Booklet. The Health Booklet recognise a schedule date with the tag 'd/'.</p>
 </div>
 <div class="sect3">
 <h4 id="4-3-1-current-implementation"><a class="link" href="#4-3-1-current-implementation">4.3.1 Current Implementation</a></h4>
 <div class="paragraph">
-<p>The schedule feature currently accepts dates from the users as an input category under the add command. Input must be in the format DD-MM-YYYY for it to be accepted as a proper schedule input. For each person added, multiple schedule dates can be added and it is also not a compulsory field to fill.</p>
+<p>The schedule feature currently accepts dates from the users as an input category under the add command. Input must be in the format DD-MM-YYYY for it to be accepted as a proper schedule date input. For each person added, multiple schedule dates can be added and it is also not a compulsory field to fill.</p>
 </div>
 <div class="paragraph">
 <p>This is achieved by setting up a schedule class which sets a regular expression (regex) that only accept valid dates in the DD-MM-YYYY format. Non-existent dates such as 30-02-2019 or 28-28-2019 would not be accepted.</p>
 </div>
 <div class="paragraph">
-<p>Subsequently, a hashset of schedule act as an attribute for person class. Everytime the add command is used to add a valid person, a person object is created with the set of schedule as part of the attribute of the person. As such, there can be multiple appointment dates added together with the person. The schedule is identified using the ‘d/’ mark.</p>
+<p>Subsequently, a hashset of schedule act as an attribute for person class. Every time the add command is used to add a valid person, a person object is created with the set of schedule as part of the attribute of the person. As such, there can be multiple appointment dates added together with the person. The schedule is identified using the ‘d/’ mark.</p>
 </div>
 </div>
 <div class="sect3">
@@ -269,10 +269,20 @@ To ensure a secure Health Booklet, user login profiles must be stored securely. 
 <div class="sect3">
 <h4 id="4-3-3-future-alternative-implementation"><a class="link" href="#4-3-3-future-alternative-implementation">4.3.3 Future/Alternative Implementation</a></h4>
 <div class="paragraph">
-<p>In future versions, the following details would be slowly incremented to ensure a smooth user experience while using the scheduling feature of Health Booklet.
-.Edit the appointment dates only.
-.A command to view all or list the appointments in a chronological order following the reference date.
-.A doctor can view their respective patients appointment</p>
+<p>In future versions, the following details would be slowly incremented to ensure a smooth user experience while using the scheduling feature of Health Booklet.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Edit the appointment dates only.</p>
+</li>
+<li>
+<p>A command to view all or list the appointments in a chronological order following the reference date.</p>
+</li>
+<li>
+<p>A doctor can view their respective patients appointment</p>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -569,4 +579,4 @@ To ensure a secure Health Booklet, user login profiles must be stored securely. 
 </dl>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-18 16:59:18 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-18 17:08:12 UTC</div></div></div></body></html>
