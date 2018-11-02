@@ -262,7 +262,6 @@ Format: `clear`
 Shows a list of all executed commands in the current session. +
 Format: `history`
 
-////
 === 4.12 Opening MediChat : `chat`
 
 Opens up MediChat, an instant messaging client to instantly contact your colleagues.
@@ -271,7 +270,6 @@ Note: In V1.3, the chat server has to be started first. Once MediChat window ope
 To simulate chatting, multiple MediChat windows have to be opened.
 
 Format: `chat` `localhost`
-////
 
 === 4.12 Exiting the program : `exit`
 
