@@ -20,9 +20,9 @@ public class ChatCommand extends Command {
 
     public ChatCommand() {
         try {
-            int result = compile("seedu.addressbook.communications.ChatClient");
+            int result = compile("seedu.addressbook.communications.ChatClient.java");
             System.out.println("javac returned " + result);
-            result = run("seedu.addressbook.communications.ChatClient");
+            result = run("ChatClient.main()");
         } catch (IOException | InterruptedException ex) {
             ex.printStackTrace();
         }
