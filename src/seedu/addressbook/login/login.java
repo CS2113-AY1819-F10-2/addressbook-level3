@@ -57,7 +57,7 @@ public class login {
     }
     private static void setUsernameF(String username){
         if(username.equals("S1234567A")){
-            usernameF = "Christopher Rogers";
+            usernameF = "Christina Rogers";
         }else{
             usernameF = username;
         }
