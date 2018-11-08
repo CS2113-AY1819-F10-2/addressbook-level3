@@ -1,11 +1,9 @@
 package seedu.addressbook.ui;
 
 import seedu.addressbook.data.person.ReadOnlyPerson;
-import seedu.addressbook.data.person.Schedule;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Used for formatting text for display. e.g. for adding text decorations.
@@ -43,15 +41,6 @@ public class Formatter {
             formattedPersons.add(person.getAsTextHidePrivate());
         }
         return format(asIndexedList(formattedPersons));
-    }
-
-    /** Formats the given set of appointments for displaying to the user. */
-    public String format(Set<? extends Schedule> scheduleSet) {
-        final List<String> scheduleList = new ArrayList<>();
-        for (Schedule schedule : scheduleSet) {
-            scheduleList.add(schedule.toString());
-        }
-        return format(asIndexedList(scheduleList));
     }
 
     /** Formats a list of strings as an indexed list. */
