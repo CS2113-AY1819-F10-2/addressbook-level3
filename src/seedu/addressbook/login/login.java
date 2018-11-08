@@ -31,12 +31,12 @@ public class login {
             Credentials credentials = new Credentials(username, password, 999);
             if(credentials.getUsername().equals(stdUser) && credentials.getPassword().equals(stdPass)){
                 System.out.println("Welcome to AddressBook3");
-                usernameF = username;
+                usernameF ="Administrator";
                 accesslevelF = 0;
                 return true;
             }else if(credentials.validateCredentials()){
                 System.out.println("2Welcome to AddressBook3");
-                usernameF = username;
+                setUsernameF(username);
                 credentials.validateAccessLevel();
                 accesslevelF = credentials.getAccessLevel();
                 System.out.println("accesslevel is " + accesslevelF );
@@ -54,5 +54,12 @@ public class login {
     }
     public static int getAccesslevelF(){
         return accesslevelF;
+    }
+    private static void setUsernameF(String username){
+        if(username.equals("S1234567A")){
+            usernameF = "Christina Rogers";
+        }else{
+            usernameF = username;
+        }
     }
 }
