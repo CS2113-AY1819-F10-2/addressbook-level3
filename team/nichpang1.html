@@ -164,6 +164,184 @@
 </tr>
 </tbody>
 </table>
+<div class="sect2">
+<h3 id="4-1-state-control-undo-redo"><a class="link" href="#4-1-state-control-undo-redo">4.1  State control (undo/redo)</a></h3>
+<div class="paragraph">
+<p>The state control feature allows the user to manipulate the different states of the MediBook in the current session with the undo and redo command. This section will describe the implementation of this feature.</p>
+</div>
+<div class="sect3">
+<h4 id="4-1-1-current-implementation"><a class="link" href="#4-1-1-current-implementation">4.1.1  Current implementation</a></h4>
+<div class="paragraph">
+<p>The state control mechanism is managed by the CommandStack class. It supports the undo-ing and redo-ing of commands that modifies the contents of the MediBook in the current session.</p>
+</div>
+<div class="paragraph">
+<p>These commands will extend from <code>UndoAbleCommand</code> instead of <code>Command</code>. These commands are then managed by the <strong>undoStack</strong> and the <strong>redoStack</strong>.
+The following diagram shows the inheritance diagram for commands:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/UndoAbleCommand.png" alt="UndoAbleCommand">
+</div>
+</div>
+<div class="paragraph">
+<p>Commands that inherits from <code>Command</code> are implemented this way:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">FindCommand</span> <span class="directive">extends</span> Command {
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> CommandResult execute() {
+        <span class="comment">//Find Logic</span>
+    }
+    <span class="comment">//...more code...</span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>On the other hand, commands that inherit from UndoAbleCommand are implemented this way:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">ClearCommand</span> <span class="directive">extends</span> UndoAbleCommand {
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> CommandResult execute() {
+        <span class="comment">//Clear Logic</span>
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">void</span> executeUndo() {
+        <span class="comment">//Logic to undo clear</span>
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">void</span> executeRedo() {
+        <span class="comment">//Logic to redo clear</span>
+    }
+    <span class="comment">//...more code...</span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As shown, the commands that extends from the UndoAbleCommand will need to know how to undo and redo the changes they have made. This requires the object to store information of the change made. For example the DeleteCommand object will need store the person that was deleted so that the change made can be undone.</p>
+</div>
+<div class="paragraph">
+<p><strong>The following core methods are in place to assist the mechanism:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code><strong>undoLast()</strong></code>- Undo the command at the top of the <strong>undoStack</strong> and push it to the <strong>redoStack</strong><br></p>
+</li>
+<li>
+<p><code><strong>redoLast()</strong></code>- Redo the command at the top of the <strong>redoStack</strong> and push it to the <strong>undoStack</strong><br></p>
+</li>
+<li>
+<p><code><strong>truncateOldPath()</strong></code>- Clears the <strong>redoStack</strong> following a change made after undo-ing.<br></p>
+</li>
+<li>
+<p><code><strong>addCommandToStack()</strong></code>- Push an UndoAbleCommand into the command stack<br></p>
+</li>
+<li>
+<p><code><strong>checkForAction()</strong></code>- Check whether the <code>truncateOldPath()</code> method needs to be called before calling <code>addCommandToStack()</code>.<br></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Below is an example usage scenario and the behaviours of the component at a given time:</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>1. On start-up:</strong></p>
+</div>
+<div class="paragraph">
+<p>CommandStack will be initialised with an empty <code>undoStack</code> and <code>redoStack</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/statecontrolimple1.jpg" alt="statecontrolimple1">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>2. User executes a command that make changes to the MediBook (e.g add John Doe&#8230;&#8203;):</strong></p>
+</div>
+<div class="paragraph">
+<p>The <code>add</code> command will do a`<strong>commandStack.checkForAction()</strong>` and subsequently <code><strong>addCommandToStack()</strong></code> which adds the AddCommand object into the <code>undoStack</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/statecontrolimple2.png" alt="statecontrolimple2">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code><strong>commandStack.checkForAction()</strong></code> will only be called if the command has been executed successfully. If it fails its execution, the object will not be pushed into the <code>undoStack</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><strong>3. User executes another command that make changes to the MediBook (e.g delete 1):</strong></p>
+</div>
+<div class="paragraph">
+<p>The same procedures as step 2 applies and the new <code>DeleteCommand</code> will be pushed into the <code>undoStack</code> on top of the previous <code>AddCommand</code> object.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/statecontrolimple3.png" alt="statecontrolimple3">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>4. User wants to undo the change they just made and executes the <code>undo</code> command:</strong></p>
+</div>
+<div class="paragraph">
+<p>The undo command calls <code><strong>commandHistory.undoLast()</strong></code> which will get the object at the top of the <code>undoStack</code>, call its <code>executeUndo()</code> method, push it into the <code>redoStack</code> and then remove it from the undoStack.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/statecontrolimple4.png" alt="statecontrolimple4">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the user execute <code>undo</code> command when the <code>undoStack</code> is empty, the <code><strong>undoLast()</strong></code> method will throw a <code><strong>HistoryOutOfBoundException()</strong></code> which will be caught in the UndoCommand class and will display an error to the user instead.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><strong>5. User executes another command that make changes to the MediBook after the undo (e.g clear):</strong></p>
+</div>
+<div class="paragraph">
+<p>The <code>clear</code> command calls <code><strong>commandStack.checkForAction()</strong></code> which determines that this command was made following an <code>undo</code> command and therefore requires <code><strong>truncateOldPath()</strong></code> to be called. In this case, the <code>redoStack</code> will be cleared before the ClearCommand object is pushed into the <code>undoStack</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/statecontrolimple5.png" alt="statecontrolimple5">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="4-1-2-reason-for-this-implementation"><a class="link" href="#4-1-2-reason-for-this-implementation">4.1.2  Reason for this implementation</a></h4>
+<div class="paragraph">
+<p>Storing the different states of the MediBook is relatively easy to implement and it is less prone to errors. However, a drawback for this implementation is the high memory usage required which might cause performance issues.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="4-1-3-alternative-consideration"><a class="link" href="#4-1-3-alternative-consideration">4.1.3  Alternative consideration</a></h4>
+<div class="paragraph">
+<p>An alternative to the current implementation is to save the list of commands executed in the arraylist instead of the whole MediBook and reverse them when attempting to undo. However, this requires implemented class to know how to reverse each command. For example, undo-ing a <code>delete</code> command requires the class to perform <code>add</code> and the class has to remember all the arguments required to create the same person that was deleted.</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -174,4 +352,4 @@
 <p><em>{Optionally, you may include other projects in your portfolio.}</em></p>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 16:11:10 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 20:38:21 UTC</div></div></div></body></html>
