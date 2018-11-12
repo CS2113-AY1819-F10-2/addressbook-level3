@@ -31,7 +31,7 @@ After countless hours spent on ideation, my team and I singled out healthcare as
 <div class="sectionbody">
 <div class="paragraph">
 <p>MediBook is a form of a centralised database to store all patient and staff information within a hospital. MediBook reduces inefficientices in the current healthcare system and can work as  a desktop and mobile application.
-The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.</p>
+The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 5 kLoC.</p>
 </div>
 </div>
 </div>
@@ -157,6 +157,61 @@ The user interacts with it using a CLI, and it has a GUI created with JavaFX. It
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="3-starting-medibook"><a class="link" href="#3-starting-medibook">3 Starting MediBook</a></h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download the latest version of MediBook from our team&#8217;s GitHub repository <a href="https://github.com/CS2113-AY1819S1-F10-2/main/releases">here</a>.</p>
+</li>
+<li>
+<p>Double click the jar file to start it.</p>
+</li>
+<li>
+<p>The login GUI should appear in a few seconds</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/loginUI.png" alt="loginUI">
+</div>
+</div>
+</li>
+<li>
+<p>Enter "Username" in the username field and "Password" in the password field according to the prompts to log in as Administrator</p>
+</li>
+<li>
+<p>If incorrect username and password is entered, both fields will be cleared and you can try logging in again.
+Program will exit upon login failure, i.e. 3 incorrect username/password tries</p>
+</li>
+<li>
+<p>Upon successful login, main GUI <code>Welcome to your MediBook!</code> will appear.</p>
+</li>
+<li>
+<p>Current Username and Access level will be displayed at bottom of main GUI</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/mainUI.png" alt="mainUI">
+</div>
+</div>
+</li>
+<li>
+<p>You may then use list as</p>
+</li>
+</ol>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>Two .txt files (addressbook.txt and loginstorage.txt) with preloaded data will be created in the same directory as the .jar file.
+Preloaded doctor accounts uses the Person&#8217;s NRIC as both username and password.</p>
+</div>
+<div class="paragraph">
+<p>If you wish to start Medibook from scratch, delete the CONTENTS of BOTH these files and login as Administrator</p>
+</div>
+</div>
+</div>
 <div class="sect2">
 <h3 id="4-14-change-password-code-changepassword-code"><a class="link" href="#4-14-change-password-code-changepassword-code">4.14 Change Password: <code>changepassword</code></a></h3>
 <div class="paragraph">
@@ -277,4 +332,4 @@ In the future, a salt will be used to safeguard against rainbow table attacks wh
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 14:43:07 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 15:17:44 UTC</div></div></div></body></html>

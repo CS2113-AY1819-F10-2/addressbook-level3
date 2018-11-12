@@ -71,7 +71,7 @@ All of this is secured by the login which also limits the user access level acco
 </div>
 </li>
 <li>
-<p>Enter "Username" in the username field and "Password" in the password field according to the prompts</p>
+<p>Enter "Username" in the username field and "Password" in the password field according to the prompts to log in as Administrator</p>
 </li>
 <li>
 <p>If incorrect username and password is entered, both fields will be cleared and you can try logging in again.
@@ -88,22 +88,21 @@ Program will exit upon login failure, i.e. 3 incorrect username/password tries</
 </div>
 </div>
 </li>
+<li>
+<p>You may then use list as</p>
+</li>
 </ol>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
+<div class="exampleblock">
+<div class="content">
 <div class="paragraph">
 <p>Two .txt files (addressbook.txt and loginstorage.txt) with preloaded data will be created in the same directory as the .jar file.
-If you wish to start Medibook from scratch, delete the contents of BOTH these files.</p>
+Preloaded doctor accounts uses the Person&#8217;s NRIC as both username and password.</p>
 </div>
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>If you wish to start Medibook from scratch, delete the CONTENTS of BOTH these files and login as Administrator</p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -213,6 +212,9 @@ Format: <code>add NAME n/NRIC [p]p/PHONE_NUMBER [p]e/EMAIL [p]a/ADDRESS s/TITLE 
 <td class="content">
 <div class="paragraph">
 <p>TITLE is used to differentiate a doctor and a patient. Putting <code>Doctor</code> in this field will create a doctor while <code>Patient</code> will create a patient.</p>
+</div>
+<div class="paragraph">
+<p>When adding a doctor as Administrator, a new account will be created with person  NRIC as username and <strong>StandardPass123!</strong> as password.</p>
 </div>
 <div class="paragraph">
 <p>DD-MM-YYYY-HH:MM is used to record appointment dates and their starting time.</p>
@@ -922,4 +924,4 @@ Viewing person: John Doe NRIC: S1233210Y Phone: 81654610 Email: 10@gmail Address
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 14:43:07 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 15:17:44 UTC</div></div></div></body></html>
