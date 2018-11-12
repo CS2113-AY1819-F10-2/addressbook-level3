@@ -4,7 +4,7 @@
 <h2 id="about-me"><a class="link" href="#about-me">About Me</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>I am currently an undergraduate of National University of Singapore. I am in my year 2 of the Computer Engineering course and am expecting to graduate in mid-2021. I code, study, play and eat in Singapore.</p>
+<p>I am currently an undergraduate of National University of Singapore. I am in  year 2 of the Computer Engineering course and am expecting to graduate in mid-2021.</p>
 </div>
 </div>
 </div>
@@ -157,6 +157,61 @@ The user interacts with it using a CLI, and it has a GUI created with JavaFX. It
 </tr>
 </tbody>
 </table>
+<div class="sect2">
+<h3 id="4-14-change-password-code-changepassword-code"><a class="link" href="#4-14-change-password-code-changepassword-code">4.14 Change Password: <code>changepassword</code></a></h3>
+<div class="paragraph">
+<p>Changes the password of the current logged-in-user.
+Format: changepassword pw/CURRENTPASSWORD npw/NEWPASSWORD cpw/CONFIRMNEWPASSWORD</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>CURRENTPASSWORD must be the current password of the logged-in-user</p>
+</div>
+<div class="paragraph">
+<p>NEWPASSWORD and CONFIRMNEWPASSWORD must be exactly the same.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>changepassword pw/0ldPassword! npw/N3wPassword! cpw/N3wPassword!</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="4-19-access-levels"><a class="link" href="#4-19-access-levels">4.19 Access levels</a></h3>
+<div class="paragraph">
+<p>Certain data fields of a person will require a certain access level to view the information. If the User does not have the required access level, the field will be displayed as "*** HIDDEN ***" instead.
+Address field is such a data type. A smaller number indicate a higher access level with level 0 being the highest level.</p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>list</code><br>
+<code>viewall 1</code><br>
+Views all details of the 1st person in MediBook.
+DISPLAYED:<br>
+Viewing person: John Doe NRIC: S1233210Y Phone: 81654610 Email: 10@gmail Address:  *** HIDDEN ***  Title: Doctor Schedule:  Tags:</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -172,5 +227,54 @@ The user interacts with it using a CLI, and it has a GUI created with JavaFX. It
 </tr>
 </tbody>
 </table>
+<div class="sect2">
+<h3 id="4-2-login-system-and-access-level"><a class="link" href="#4-2-login-system-and-access-level">4.2 Login System and Access Level</a></h3>
+<div class="paragraph">
+<p>Securely logs user on to MediBook with a preassigned access level.</p>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 14:39:43 UTC</div></div></div></body></html>
+</div>
+<div class="sect2">
+<h3 id="4-2-1-current-implementation"><a class="link" href="#4-2-1-current-implementation">4.2.1 Current Implementation</a></h3>
+<div class="paragraph">
+<p>Login is implemented as a User Interface(UI) before the main Graphic UI(GUI) launches. The login UI and main GUI are two different scenes. Upon the launch of MediBook, the scene is set to the login UI and MediBook prompts for two input from the User, username and password. MediBook then compares the given pair of inputs with the data in the file loginstorage.txt.
+On successful login, the scene will switch from login UI to the main GUI scene.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/sceneswitch.png" alt="sceneswitch">
+</div>
+</div>
+<div class="paragraph">
+<p>Similar to the main GUI, login UI uses JavaFX with the file, signin.fxml, and its controller class, LoginWindow. LoginWindow class handles the getting of user inputs (i.e. Username and Password).
+Additionally, LoginWindow will reject empty fields and prompt the user for non-empty inputs. These are implemented with the function tryLogin().
+If valid inputs are entered by the user, LoginWindow will send the inputs to the Login component of Medibook. The Login component will return an answer in the form of a Boolean as to whether login is successful or not.
+The user has three tries to enter a correct set of username and password before the program exits for security reasons.</p>
+</div>
+<div class="paragraph">
+<p>When Login component receives the input from LoginWindow, a Credentials class object with the given username and password will be instantiated in Login class.
+Using the methods of the Credentials class, validation of the Credentials will take place. The Credentials are passed through the WorkWithLoginStorage class which will retrieve data from loginstorage.txt and comapre it with the input.
+loginstorage.txt stores the username of all users and the hashes of their passwords and their respective access levels.
+WorkWithLoginStorage class iterates through loginstorage.txt to find the matching username, and the corresponding hashed password. The password input is then hashed using Java’s SHA-512 hashing algorithm and the result is compared with the hashed password stored in loginstorage.txt.
+If both matches then a Boolean true will be returned and a Boolean false if otherwise.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="4-2-2-reason-for-implementation"><a class="link" href="#4-2-2-reason-for-implementation">4.2.2 Reason for Implementation</a></h3>
+<div class="paragraph">
+<p>A different UI scene is used for login so as to allow main GUI to be more isolated. Should the User fail to log in, access to Medibook must and will be denied. Thus login is implemented before the main GUI.
+As login UI and main GUI will never need to be concurrent, two separate scenes and switching from login UI to main GUI can be used.</p>
+</div>
+<div class="paragraph">
+<p>To ensure a secure MediBook, user login profiles must be stored securely. Storing the hash result instead of the password ensures that should loginstorage.txt be compromised, the actual passwords are still unknown to the perpetrators.
+This is due to hashes being one-way. It is almost impossible for people to get back the actual password with a hash. Also, two similar passwords (e.g. Password123! and Password124!) will result in a completely different hash making it even harder for hackers to work out the actual password based on the hashes.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="4-2-3-future-alternative-implementation"><a class="link" href="#4-2-3-future-alternative-implementation">4.2.3 Future/Alternative Implementation</a></h3>
+<div class="paragraph">
+<p>An alternative implementation, Java Authentication and Authorisation System (JAAS), was also considered when deciding on how to implement MediBook’s login system. However, using JAAS is more restrictive than the current implementation which allows for easy change in hashing algorithms used and different security features in the future. JAAS is also harder to implement and as MediBook is currently targeted at about 1000 users, there is no need to use JAAS.
+In the future, a salt will be used to safeguard against rainbow table attacks where hackers compare the hashes from loginstorage.txt with their own table of hashes of all different combinations of passwords.</p>
+</div>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 14:43:07 UTC</div></div></div></body></html>
