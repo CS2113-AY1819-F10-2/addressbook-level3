@@ -51,10 +51,20 @@ The user interacts with it using a CLI, and it has a GUI created with JavaFX. It
 <p>Justification: As the medical information of patients are highly sensitive and private, only staff members should have access. This personalised individual access is enabled with logins and accounts.</p>
 </li>
 <li>
-<p>Highlights: After careful consideration, this enhancement is implemented as a standalone plugin; it does not affect the code of MediBook thus allowing for changes to the login system to be made with ease. The security features behind the login system is in line with industry standards and took a huge effort to implement.</p>
+<p>Highlights:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>After careful consideration, this enhancement is implemented as a standalone plugin; it does not affect the code of MediBook thus allowing for changes to the login system to be made with ease.</p>
 </li>
 <li>
-<p>Credits: <em>{mention here if you reused any code/ideas from elsewhere or if a third-party library is heavily used in the feature so that a reader can make a more accurate judgement of how much effort went into the feature}</em></p>
+<p>The security features behind the login system is in line with industry standards and took a huge effort to implement.</p>
+</li>
+<li>
+<p>JavaFX was specially used to implement the login User Interface (UI). This includes the .fxml file and corresponding controller.</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
@@ -64,13 +74,24 @@ The user interacts with it using a CLI, and it has a GUI created with JavaFX. It
 <div class="ulist">
 <ul>
 <li>
-<p>What it does: allows for hierarchical viewing of sensitive information and data.</p>
+<p>What it does: allows for hiding of sensitive and irrelevant information and data.</p>
 </li>
 <li>
-<p>Justification: Even amongst doctors in the same institution, patient data should not be shared so loosely. Authorisation and access levels enables only the patient&#8217;s direct doctor to be privy to his information, maintaining confidentiality of a patients data.</p>
+<p>Justification: Even amongst doctors in the same institution, patient data should not be shared so loosely.
+Authorisation and access levels enables only the patient&#8217;s direct doctor to be privy to his information, maintaining confidentiality of a patients data.</p>
 </li>
 <li>
-<p>Highlights: [this feature is still in the works]</p>
+<p>Highlights:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>With access levels, the system administrator can restrict access to information that is not required by the doctor in his duties. E.g. Patient&#8217;s address should be hidden</p>
+</li>
+<li>
+<p>Access levels prevents unauthorised users from making changes to the data</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
@@ -79,7 +100,7 @@ The user interacts with it using a CLI, and it has a GUI created with JavaFX. It
 <p><strong>Minor enhancement</strong>: worked with editing text files and hashing passwords to store the login credentials of every account secure</p>
 </li>
 <li>
-<p><strong>Code contributed</strong>: [<a href="https://github.com">Functional code</a>] [<a href="https://github.com">Test code</a>] <em>{give links to collated code files}</em></p>
+<p><strong>Code contributed</strong>: [<a href="https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&amp;search=ongjiajian">Code</a>]</p>
 </li>
 <li>
 <p><strong>Other contributions</strong>:</p>
@@ -103,7 +124,10 @@ The user interacts with it using a CLI, and it has a GUI created with JavaFX. It
 <p>added NRIC field to Person class to be used as Username for Login feature and to maintain uniqueness of users</p>
 </li>
 <li>
-<p>Wrote additional tests for existing features to increase coverage from 0% to 4.7%</p>
+<p>edited unique Persons to be found by NRIC instead of name for increased accuracy in identifying duplicated Person as all NRIC numbers are unique</p>
+</li>
+<li>
+<p>Wrote additional tests for existing features to increase coverage of Login component from 0% to 100%</p>
 </li>
 </ul>
 </div>
@@ -113,7 +137,7 @@ The user interacts with it using a CLI, and it has a GUI created with JavaFX. It
 <div class="ulist">
 <ul>
 <li>
-<p>Did cosmetic tweaks to existing contents of the User Guide: <a href="https://github.com">#14</a></p>
+<p>Did cosmetic tweaks to existing contents of the User Guide</p>
 </li>
 </ul>
 </div>
@@ -126,13 +150,7 @@ The user interacts with it using a CLI, and it has a GUI created with JavaFX. It
 <p>PRs reviewed (with non-trivial review comments):</p>
 </li>
 <li>
-<p>Contributed to forum discussions</p>
-</li>
-<li>
-<p>Tested and reported bugs and suggestions for other teams in the class</p>
-</li>
-<li>
-<p>Some parts of the history feature I added was adopted by several other class mates</p>
+<p>Tested and reported bugs and suggestions for other teams in the class with a special commendation from the other team: <a href="https://github.com/CS2113-AY1819S1-W13-3/main/issues/77">#77</a></p>
 </li>
 </ul>
 </div>
@@ -332,4 +350,4 @@ In the future, a salt will be used to safeguard against rainbow table attacks wh
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 15:31:46 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 15:42:51 UTC</div></div></div></body></html>
