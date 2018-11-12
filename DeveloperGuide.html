@@ -13,6 +13,7 @@
 <li><a href="#3-1-ui-component">3.1 UI Component</a></li>
 <li><a href="#3-2-login-component">3.2 Login Component</a></li>
 <li><a href="#3-3-logic-component">3.3 Logic Component</a></li>
+<li><a href="#3-4-data-component">3.4 Data Component</a></li>
 </ul>
 </li>
 <li><a href="#4-implementation">4. Implementation</a>
@@ -22,7 +23,7 @@
 <li><a href="#4-2-1-current-implementation">4.2.1 Current Implementation</a></li>
 <li><a href="#4-2-2-reason-for-implementation">4.2.2 Reason for Implementation</a></li>
 <li><a href="#4-2-3-future-alternative-implementation">4.2.3 Future/Alternative Implementation</a></li>
-<li><a href="#4-3-scheduling">4.3 Scheduling</a></li>
+<li><a href="#4-3-record-appointments">4.3 Record Appointments</a></li>
 <li><a href="#4-4-data-organisation">4.4 Data Organisation</a></li>
 <li><a href="#4-5-association">4.5 Association</a></li>
 </ul>
@@ -43,7 +44,7 @@
 <h2 id="1-introduction"><a class="link" href="#1-introduction">1 Introduction</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>MediBook v1.4 is an application that functions as an advanced logbook for use in the healthcare industry. It allows healthcare professionals to keep track and sort patients’ details, arrange their schedule based on their patients’ appointments.</p>
+<p>MediBook v1.4 is an application that functions as an advanced logbook for use in the healthcare industry. It allows healthcare professionals to keep track and sort patients’ details, record patients’ appointments.</p>
 </div>
 <div class="paragraph">
 <p>This Developer Guide is intended for users with basic technical background as it details the setting up of our application, the design of our software architecture, describe the implementation of our key features, and the testing involved in our software. Appendix includes user stories and use cases for reference.</p>
@@ -154,6 +155,14 @@
 <div class="imageblock">
 <div class="content">
 <img src="images/LogicComponentClassDiagram.png" alt="LogicComponentClassDiagram">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="3-4-data-component"><a class="link" href="#3-4-data-component">3.4 Data Component</a></h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/DataComponentClassDiagram.png" alt="DataComponentClassDiagram">
 </div>
 </div>
 </div>
@@ -379,45 +388,129 @@ In the future, a salt will be used to safeguard against rainbow table attacks wh
 </div>
 </div>
 <div class="sect2">
-<h3 id="4-3-scheduling"><a class="link" href="#4-3-scheduling">4.3 Scheduling</a></h3>
+<h3 id="4-3-record-appointments"><a class="link" href="#4-3-record-appointments">4.3 Record Appointments</a></h3>
 <div class="paragraph">
-<p>Scheduling allows appointment to be stored in MediBook. MediBook recognises a schedule date with the tag 'd/'.</p>
+<p>Record Appointment feature allows appointments to be stored in MediBook.</p>
+</div>
+<div class="paragraph">
+<p>When adding a person, MediBook recognises an appointment with the tag 'd/' and in the form DD-MM-YYY-HH:MM,
+where the year should be in the 20th or 21th Century and time in 24-hour clock format.</p>
+</div>
+<div class="paragraph">
+<p>DD-MM-YYY-HH:MM indicates the day and the starting time of the appointment.</p>
+</div>
+<div class="paragraph">
+<p><strong>Edit-Appointment Mode:</strong>
+Users can enter edit-appointment mode by entering the <code>edit-appointment INDEX</code> where index refers to the person with that index number shown in the most recent listing.
+Once in edit-appointment mode, users can <code>add</code> multiple appointments, <code>delete</code> multiple appointments and <code>list</code> the appointments of the chosen person
+ before exiting edit-appointment mode using <code>done</code>. A <code>help</code> summary of the edit-appointment mode is also available.</p>
+</div>
+<div class="paragraph">
+<p>The following is a summary of the commands involved in edit-appointment:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>edit-appointment INDEX</code></p>
+</li>
+<li>
+<p><code>add DD-MM-YYYY-HH:MM&#8230;&#8203;</code></p>
+</li>
+<li>
+<p><code>delete DD-MM-YYYY-HH:MM&#8230;&#8203;</code></p>
+</li>
+<li>
+<p><code>list</code></p>
+</li>
+<li>
+<p><code>help</code></p>
+</li>
+<li>
+<p><code>done</code></p>
+</li>
+</ul>
 </div>
 <div class="sect3">
 <h4 id="4-3-1-current-implementation"><a class="link" href="#4-3-1-current-implementation">4.3.1 Current Implementation</a></h4>
 <div class="paragraph">
-<p>The schedule feature currently accepts dates from the users as an input category under the add command. Input must be in the format DD-MM-YYYY for it to be accepted as a proper schedule date input. For each person added, multiple schedule dates can be added and it is also not a compulsory field to fill.</p>
+<p>Every appointment is an object of the Schedule class. Each Person has a hashset of Schedule objects.
+This allows each Person to have zero to multiple Schedules. Furthermore, due to the property of hashset,
+ there would be no duplicated appointments.</p>
 </div>
 <div class="paragraph">
-<p>This is achieved by setting up a schedule class which sets a regular expression (regex) that only accept valid dates in the DD-MM-YYYY format. Non-existent dates such as 30-02-2019 or 28-28-2019 would not be accepted.</p>
+<p>Appointments are verified though the strict Schedule class which sets a regular expression (regex) that only accept valid appointments in the DD-MM-YYYY-HH:MM format.
+ Non-existent dates, such as 30-02-2019-13:00 or 28-28-2019-15:00, and time, like 01-01-2019-25:80, would not be accepted.</p>
 </div>
 <div class="paragraph">
-<p>Subsequently, a hashset of schedule act as an attribute for person class. Every time the add command is used to add a valid person, a person object is created with the set of schedule as part of the attribute of the person. As such, there can be multiple appointment dates added together with the person. The schedule is identified using the ‘d/’ mark.</p>
+<p><strong>Entering Edit-Appointment Mode:</strong> (And Exiting)</p>
+</div>
+<div class="paragraph">
+<p>As shown in the sequence diagram below, when the edit-appointment command is instantiated, the index input is used to identify the Person in the list to edit appointment.</p>
+</div>
+<div class="paragraph">
+<p>Afterwards, when it execute(), a static boolean in the Command class is set to true via SetEditingAppointmentState() to indicate that the user is now in edit-appointment mode.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/EditAppointmentSeqenceDiagram.png" alt="EditAppointmentSeqenceDiagram">
+</div>
+</div>
+<div class="paragraph">
+<p>Subsequently, when commands are made, the Parser check them against the edit-appointment mode commands and execute accordingly.</p>
+</div>
+<div class="paragraph">
+<p>This only stops when the user exits edit-appointment mode using the command <code>done</code>. ExitAppointmentCommand would set the static boolean in Command class back to false
+using SetEditingAppoinmentState(false).</p>
+</div>
+<div class="paragraph">
+<p><strong>Add Appoinments in Edit-Appointment Mode:</strong></p>
+</div>
+<div class="paragraph">
+<p>When AddAppoinment is instantiated, it converts and stores the hashset of Schedule appointments.</p>
+</div>
+<div class="paragraph">
+<p>As shown in the sequence diagram below, in execute(), a Person copy of the original index person is made and updated with the latest schedule.
+editPerson() is used to replace the Person in the UniquePersonList of people in the AddressBook. Delete is also done in the similar manner.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/AddAppointmentSequenceDiagram.png" alt="AddAppointmentSequenceDiagram">
+</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="4-3-2-reason-for-implementation"><a class="link" href="#4-3-2-reason-for-implementation">4.3.2 Reason for Implementation</a></h4>
 <div class="paragraph">
-<p>Due to the large number of patients the doctors care for, it is at times hard to keep track of the numerous appointments made by their patients. As such, a scheduling feature would record the appointment date so that they can keep track of the numerous appointments they have for the day.</p>
+<p>Every time a command that takes effect on a single Person is called, AddressBook level 3 requires users to indicated the index of the Person.</p>
+</div>
+<div class="paragraph">
+<p>Hence, I wanted to enter a mode for edit-appointment as it breaks down a very long input into multiple shorter ones.
+This makes easier and more intuitive for users, especially as patients would have multiple appointments made in one go or seek to
+make changes to their appointments.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="4-3-3-future-alternative-implementation"><a class="link" href="#4-3-3-future-alternative-implementation">4.3.3 Future/Alternative Implementation</a></h4>
+<h4 id="4-3-3-alternative-consideration"><a class="link" href="#4-3-3-alternative-consideration">4.3.3 Alternative Consideration</a></h4>
 <div class="paragraph">
-<p>In future versions, the following details would be slowly incremented to ensure a smooth user experience while using the scheduling feature of MediBook.</p>
+<p>In future versions, the following details can be implemented for a better appointment feature for MediBook.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>Edit the appointment dates only.</p>
+<p>Use Calendar class in java.util. This allows precise date and time to be recorded, easier comparision between appointments
+and current date and time can be obtained. This class also provides additional fields and methods for implementing a concrete calendar system outside the package.</p>
 </li>
 <li>
-<p>A command to view all or list the appointments in a chronological order following the reference date.</p>
+<p>Organise the appointments in chronological order. Possible methods of achieving are to use a TreeSet instead of Hashset
+and to use the Calender Class mentioned.</p>
 </li>
 <li>
-<p>A doctor can view their respective patients appointment</p>
+<p>A command feature to list all the appointments in a chronological order following the reference date.</p>
 </li>
-</ol>
+<li>
+<p>A command feature for doctor to view their respective patients' appointments for the day or for specific days.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -772,4 +865,4 @@ In the future, a salt will be used to safeguard against rainbow table attacks wh
 </dl>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 14:27:13 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 14:39:43 UTC</div></div></div></body></html>
